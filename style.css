@@ -2,3 +2,19 @@
     padding: 0%;
     margin: 0%;
 }
+#phone-card{
+    
+    display: grid;
+    grid-template-columns: repeat(3 ,1fr);
+    grid-gap: 70px;
+   
+
+}
+@media only screen and (max-width: 600px) {
+    #phone-card {
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+        grid-gap: 50px;
+        
+    }
+  }

@@ -6,15 +6,15 @@ const loadData = () => {
     fetch(url)
         .then(res => res.json())
         .then(data => {
-
-            if (data.data.slice(0, 20).length === 0) {
-               alert('not available this model')
-            } 
-            else {        
-                displayData(data.data.slice(0, 20));       
+           //   error-msg-handling
+            if (data.data.slice(0, 20).length < 20) { 
+                document.getElementById('found').innerHTML = `<h1 class="text-center text-danger"> This Model Not Available Right Now</h1>`;
             }
-        })
-       
+            else {
+                document.getElementById('found').innerHTML = ``;
+                displayData(data.data.slice(0, 20));
+            }
+        });
 }
 
 // show phone sector using (arrow function & forEach loop)
@@ -33,7 +33,9 @@ const displayData = phones => {
                         </div>
                     </div>`;
         phoneCard.appendChild(div);
-        
+        const inputField = document.getElementById('input-field');
+        inputField.value = '';
+
     });
 }
 
@@ -44,23 +46,28 @@ const loadDetails = details => {
     fetch(url)
         .then(res => res.json())
         .then(data => {
-
             displayDetails(data.data)
         });
 }
 
 // show phone details sector using arrow function & object
 const displayDetails = info => {
-    console.log(info)
     let other = JSON.stringify(info.others).split('"').join("&quot;")
-
+    document.getElementById('more-details').innerHTML = '';
+    if (info.releaseDate == '') {
+        var temp = "no date found";
+    }
+    else {
+        var temp = info.releaseDate;
+    }
+    console.log(info.releaseDate);
     const moreDetails = document.getElementById('more-details')
     moreDetails.innerHTML = `<div class="col-md-12">
                             <div class=" card rounded-3  mb-3 p-4 w-50 mx-auto border-0 " style ="background :rgb(245, 240, 231)" >
                                 <img class="w-25  mx-auto" src="${info.image}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                 <h4 class="card-title ">${info.name}</h4>
-                                <h5 class="card-title">Release Date : ${info.releaseDate}</h5>                      
+                                <h5 class="card-title">Release Date : ${temp}</h5>                      
                                 <h5 class="card-title "> Main Features :-</h5> 
                                 <ul>
                                     <li> ChipSet: ${info.mainFeatures.chipSet} </li>
